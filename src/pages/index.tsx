@@ -1,8 +1,67 @@
+import React, { useEffect } from 'react'
 import Head from "next/head"
 import { Container, Row, Col, Form, FormControl, Button, Card } from 'react-bootstrap'
-import { GoChevronLeft, GoChevronRight } from "react-icons/go";
+import styled from 'styled-components'
+import { GoChevronLeft, GoChevronRight } from "react-icons/go"
+
+const NoWrapCol = styled(Col).attrs({
+  id: 'home__main__scroll__container'
+})`
+  white-space: nowrap;
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;    
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`
+
+const NoWrapRow = styled(Row)`
+  flex-wrap: nowrap;
+`
 
 export default function Home() {
+  useEffect(() => {
+    const ele = document.getElementById('home__main__scroll__container')
+    ele.style.cursor = 'grab'
+
+    let pos = { top: 0, left: 0, x: 0, y: 0 }
+
+    const mouseDownHandler = (e: any) => {
+      ele.style.cursor = 'grabbing'
+      ele.style.userSelect = 'none'
+
+      pos = {
+        ...pos,
+        left: ele.scrollLeft,
+        x: e.clientX,
+      }
+
+      document.addEventListener('mousemove', mouseMoveHandler)
+      document.addEventListener('mouseup', mouseUpHandler)
+    }
+
+    const mouseMoveHandler = (e: any) => {
+      const dx = e.clientX - pos.x
+
+      ele.scrollLeft = pos.left - dx
+    }
+
+    const mouseUpHandler = function () {
+      ele.style.cursor = 'grab';
+      ele.style.removeProperty('user-select');
+
+      document.removeEventListener('mousemove', mouseMoveHandler);
+      document.removeEventListener('mouseup', mouseUpHandler);
+    }
+
+    ele.addEventListener('mousedown', mouseDownHandler)
+
+    return () => {
+      ele.removeEventListener('mousedown', mouseDownHandler)
+    }
+  }, [])
 
   return (
     <div className="bg-light">
@@ -33,8 +92,8 @@ export default function Home() {
                   <GoChevronLeft />
                 </div>
               </Col>
-              <Col className="">
-                <Row>
+              <NoWrapCol>
+                <NoWrapRow>
                   <Col>
                     <Card className="border-0 bg-white mx-auto" style={{ maxWidth: '237px' }}>
                       <Card.Img variant="top" src="https://images.samsung.com/is/image/samsung/br-galaxy-a01-a015-sm-a015mzbezto-front-237503098?$720_576_PNG$" />
@@ -95,8 +154,8 @@ export default function Home() {
                       </Card.Body>
                     </Card>
                   </Col>
-                </Row>
-              </Col>
+                </NoWrapRow>
+              </NoWrapCol>
               <Col xs={{ span: 2 }} md={{ span: 1 }}>
                 <div className="bg-white border-bottom d-flex justify-content-center align-items-center" style={{ width: 29, height: 35 }}>
                   <GoChevronRight />
