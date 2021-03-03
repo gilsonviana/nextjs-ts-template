@@ -6,9 +6,17 @@ export interface ICategoryPageProps {
 }
 
 export interface ICategoryContext {
+  orderBy: OrderByTypes
+  updateOrderBy: (order: OrderByTypes) => void
+
   pagination: ICategoryContextPagination | null
   updatePagination: (params: ICategoryContextPagination) => void
+
+  products: IProduct[]
+  updateProducts: (newProducts: IProduct[]) => void
 }
+
+export type OrderByTypes = 'menor' | 'maior' | string
 
 export interface ICategoryContextPagination {
   page?: number

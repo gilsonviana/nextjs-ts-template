@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { Container, Row, Col, Card, Button } from 'react-bootstrap'
 import axios from 'axios'
@@ -7,14 +7,9 @@ import { ProductCard } from '@modules/Home/styled'
 import CategoryOrderBy from '@modules/Category/OrderBy'
 import { CategoryContext } from '@modules/Category/context'
 import { ICategoryPageProps, ICategoryContext } from '@modules/Category/interface'
-import { IProduct } from '@modules/Home/interface'
 
-export default function CategoryPage({
-  products,
-  categoryId
-}: ICategoryPageProps) {
-  const { pagination, updatePagination } = useContext(CategoryContext) as ICategoryContext
-  const [localProducts, setLocalProducts] = useState<IProduct[]>([])
+export default function CategoryPage(props: ICategoryPageProps) {
+  const { pagination, updatePagination, products, updateProducts } = useContext(CategoryContext) as ICategoryContext
   const [isLoadingProducts, setIsLoadingProducts] = useState<boolean>(false)
 
   const getProductName = (name: string): string => {
@@ -26,15 +21,15 @@ export default function CategoryPage({
       setIsLoadingProducts(true)
       const { data } = await axios({
         baseURL: process.env.NEXT_PUBLIC_LOMADEE_API_URL + '/' + process.env.NEXT_PUBLIC_LOMADEE_APP_TOKEN,
-        url: `/offer/_category/${categoryId}/`,
+        url: `/offer/_category/${props.categoryId}/`,
         method: 'GET',
         params: {
           sourceId: process.env.NEXT_PUBLIC_LOMADEE_SOURCE_ID,
           page: pagination.page + 1
         }
       })
-      updatePagination({ page: pagination.page + 1})
-      setLocalProducts([...data.offers])
+      updatePagination({ page: pagination.page + 1 })
+      updateProducts(data.offers)
       setIsLoadingProducts(false)
     } catch (err) {
       setIsLoadingProducts(false)
@@ -42,15 +37,32 @@ export default function CategoryPage({
     }
   }
 
+  useEffect(() => {
+    updateProducts(props.products)
+  }, [])
+
   return (
-    <main className="bg-white py-4">
-      <Container>
+    <main className="bg-white pb-5">
+      <Container fluid>
         <Row>
-          <Col lg={{ span: 3 }} xl={{ span: 2 }}>
-            <h5>Categoria</h5>
+          <Col className="bg-light" lg={{ span: 3 }} xl={{ span: 2 }}>
+            <aside className="sticky-top pt-3">
+              <section className="mb-5">
+                <h5>Categoria</h5>
+                <p>Nome da categoria</p>
+              </section>
+              <section className="mb-5">
+                <h5>Preço</h5>
+                <p>Filtra por preço</p>
+              </section>
+              <section className="mb-5">
+                <h5>Lojas</h5>
+                <p>Lista lojas</p>
+              </section>
+            </aside>
           </Col>
-          <Col>
-            <div className="pt-2 pb-5">
+          <Col lg={{ offset: 1, span: 8 }}>
+            <div className="pt-4 pb-5">
               <Row>
                 <Col>
                   <h3>Produtos</h3>
@@ -61,7 +73,7 @@ export default function CategoryPage({
               </Row>
             </div>
             <Row>
-              {[...products, ...localProducts].map(product =>
+              {products && products.map(product =>
                 <Col key={`product-${product.id}`}>
                   <ProductCard className="bg-transparent mx-0">
                     <Card.Img variant="top" src={product.thumbnail} />
@@ -73,7 +85,9 @@ export default function CategoryPage({
                   </ProductCard>
                 </Col>
               )}
-              <Button disabled={isLoadingProducts} className="mx-auto" onClick={handleLoadMoreProducts}>Mais Ofertas</Button>
+              <Col xs={{span: 12}} className="text-center">
+                <Button size="lg" disabled={isLoadingProducts} onClick={handleLoadMoreProducts}>Mais Ofertas</Button>
+              </Col>
             </Row>
           </Col>
         </Row>
