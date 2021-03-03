@@ -119,7 +119,7 @@ export default function Home() {
                         <Card.Body>
                           <Card.Subtitle className="mb-2">{product.name}</Card.Subtitle>
                           <Card.Title>R${product.price}</Card.Title>
-                          <Button>Comprar</Button>
+                          <Button block>Comprar</Button>
                         </Card.Body>
                       </ProductCard>
                     </Col>

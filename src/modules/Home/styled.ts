@@ -68,11 +68,17 @@ export const ProductCard = styled(Card)`
   margin-left: auto;
   margin-right: auto;
   width: 200px;
+  height: 430px;
 
   svg {
     position: absolute;
     right: .5rem;
     top: .5rem;
+  }
+
+  .card-title {
+    font-weight: bold;
+    margin-bottom: 2.5rem;
   }
 
   .btn {

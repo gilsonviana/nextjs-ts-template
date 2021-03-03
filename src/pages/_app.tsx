@@ -4,6 +4,7 @@ import { Router } from 'next/router'
 import NProgress from 'nprogress'
 
 import Navbar from '@modules/Navbar'
+import CategoryProvider from '@modules/Category/context'
 
 NProgress.configure({ trickle: true, trickleSpeed: 200 })
 
@@ -26,9 +27,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     return <Error statusCode={404} />
   }
   return (
-    <div>
+    <CategoryProvider>
       <Navbar />
       <Component {...pageProps} />
-    </div>
+    </CategoryProvider>
   );
 }
