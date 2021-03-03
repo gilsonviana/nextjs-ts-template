@@ -2,105 +2,11 @@ import React, { useEffect } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { Container, Row, Col, Form, FormControl, Button, Card } from 'react-bootstrap'
-import styled from 'styled-components'
-import { GoChevronLeft, GoChevronRight } from "react-icons/go"
+import { GoChevronLeft, GoChevronRight } from 'react-icons/go'
+import { AiFillFire } from 'react-icons/ai'
 
-interface IMenuCategory {
-  imageUrl: string,
-  label: string,
-  id: string | number
-}
-
-const MENU_CATEGORIES_MOCK: IMenuCategory[] = [{
-  imageUrl: '/assets/icons/png/smartphone-call-1.png',
-  label: 'Smartphones',
-  id: 77
-}, {
-  imageUrl: '/assets/icons/png/computer-1.png',
-  label: 'Informática',
-  id: 2
-}, {
-  imageUrl: '/assets/icons/png/television-1.png',
-  label: 'TV',
-  id: 2852
-}, {
-  imageUrl: '/assets/icons/png/headphone-1.png',
-  label: 'Eletrônicos',
-  id: 1
-}, {
-  imageUrl: '/assets/icons/png/blender-1.png',
-  label: 'Eletrodomésticos',
-  id: 116
-}, {
-  imageUrl: '/assets/icons/png/shirt-1.png',
-  label: 'Moda',
-  id: 2468
-}, {
-  imageUrl: '/assets/icons/png/couch-1.png',
-  label: 'Móveis',
-  id: 2708
-}, {
-  imageUrl: '/assets/icons/png/table-lamp-1.png',
-  label: 'Decoração',
-  id: 2701
-}, {
-  imageUrl: '/assets/icons/png/soccer-1.png',
-  label: 'Esporte',
-  id: 1328
-}, {
-  imageUrl: '/assets/icons/png/console-1.png',
-  label: 'Games',
-  id: 2376
-}]
-
-const NoWrapCol = styled(Col)`
-  white-space: nowrap;
-  overflow-x: scroll;
-  -ms-overflow-style: none;
-  scrollbar-width: none;    
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`
-
-const NoWrapRow = styled(Row)`
-  flex-wrap: nowrap;
-`
-
-const MenuCategoriesWrapper = styled.div`
-  display: flex;
-  text-align: center;
-  flex-wrap: nowrap;
-  overflow-x: scroll;
-`
-
-const MenuCategory = styled.a`
-  display: block;
-  overflow: hidden;
-  color: #f8f9fa;
-  min-width: 110px;
-  
-  &:hover {
-    color: #f8f9fa;
-  }
-
-  img {
-    width: 40px;
-    max-height: 40px;
-  }
-
-  p {
-    font-size: 14px;
-  }
-`
-
-const SearchSuggestionWrapper = styled.div`
-  overflow-x: scroll;
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-`
+import { MenuCategoriesWrapper, MenuCategory, NoWrapCol, NoWrapRow, ProductCard, SearchSuggestionWrapper } from '@modules/Home/styled'
+import { MENU_CATEGORIES_MOCK, HOME_PRODUCT_LIST } from '@modules/Home/mock'
 
 export default function Home() {
   const handleSectionNavigateRight = (sectionId: string) => {
@@ -205,66 +111,19 @@ export default function Home() {
               </Col>
               <NoWrapCol id="sessao-destaque">
                 <NoWrapRow>
-                  <Col>
-                    <Card className="border-0 bg-white mx-auto" style={{ maxWidth: '237px' }}>
-                      <Card.Img variant="top" src="https://images.samsung.com/is/image/samsung/br-galaxy-a01-a015-sm-a015mzbezto-front-237503098?$720_576_PNG$" />
-                      <Card.Body>
-                        <Card.Subtitle className="mb-2">Samsung X</Card.Subtitle>
-                        <Card.Title>R$768</Card.Title>
-                        <Button block>Comprar com desconto</Button>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                  <Col>
-                    <Card className="bg-white border-0 mx-auto" style={{ maxWidth: '237px' }}>
-                      <Card.Img variant="top" src="https://images.samsung.com/is/image/samsung/br-galaxy-a01-a015-sm-a015mzbezto-front-237503098?$720_576_PNG$" />
-                      <Card.Body>
-                        <Card.Subtitle className="mb-2">Samsung X</Card.Subtitle>
-                        <Card.Title>R$768</Card.Title>
-                        <Button block>Comprar com desconto</Button>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                  <Col>
-                    <Card className="bg-white border-0 mx-auto" style={{ maxWidth: '237px' }}>
-                      <Card.Img variant="top" src="https://images.samsung.com/is/image/samsung/br-galaxy-a01-a015-sm-a015mzbezto-front-237503098?$720_576_PNG$" />
-                      <Card.Body>
-                        <Card.Subtitle className="mb-2">Samsung X</Card.Subtitle>
-                        <Card.Title>R$768</Card.Title>
-                        <Button block>Comprar com desconto</Button>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                  <Col>
-                    <Card className="border-0 bg-white mx-auto" style={{ maxWidth: '237px' }}>
-                      <Card.Img variant="top" src="https://images.samsung.com/is/image/samsung/br-galaxy-a01-a015-sm-a015mzbezto-front-237503098?$720_576_PNG$" />
-                      <Card.Body>
-                        <Card.Subtitle className="mb-2">Samsung X</Card.Subtitle>
-                        <Card.Title>R$768</Card.Title>
-                        <Button block>Comprar com desconto</Button>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                  <Col>
-                    <Card className="bg-white border-0 mx-auto" style={{ maxWidth: '237px' }}>
-                      <Card.Img variant="top" src="https://images.samsung.com/is/image/samsung/br-galaxy-a01-a015-sm-a015mzbezto-front-237503098?$720_576_PNG$" />
-                      <Card.Body>
-                        <Card.Subtitle className="mb-2">Samsung X</Card.Subtitle>
-                        <Card.Title>R$768</Card.Title>
-                        <Button block>Comprar com desconto</Button>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                  <Col>
-                    <Card className="bg-white border-0 mx-auto" style={{ maxWidth: '237px' }}>
-                      <Card.Img variant="top" src="https://images.samsung.com/is/image/samsung/br-galaxy-a01-a015-sm-a015mzbezto-front-237503098?$720_576_PNG$" />
-                      <Card.Body>
-                        <Card.Subtitle className="mb-2">Samsung X</Card.Subtitle>
-                        <Card.Title>R$768</Card.Title>
-                        <Button block>Comprar com desconto</Button>
-                      </Card.Body>
-                    </Card>
-                  </Col>
+                  {HOME_PRODUCT_LIST.map(product =>
+                    <Col key={`home-product-${product.id}`}>
+                      <ProductCard>
+                        <AiFillFire size="1.5rem" className="text-danger"/>
+                        <Card.Img variant="top" src={product.thumbnail} />
+                        <Card.Body>
+                          <Card.Subtitle className="mb-2">{product.name}</Card.Subtitle>
+                          <Card.Title>R${product.price}</Card.Title>
+                          <Button>Comprar</Button>
+                        </Card.Body>
+                      </ProductCard>
+                    </Col>
+                  )}
                 </NoWrapRow>
               </NoWrapCol>
               <Col xs={{ span: 2 }} md={{ span: 1 }}>
