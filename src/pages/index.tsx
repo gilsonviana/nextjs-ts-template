@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
-import Head from "next/head"
+import Head from 'next/head'
+import Link from 'next/link'
 import { Container, Row, Col, Form, FormControl, Button, Card } from 'react-bootstrap'
 import styled from 'styled-components'
 import { GoChevronLeft, GoChevronRight } from "react-icons/go"
@@ -118,8 +119,8 @@ export default function Home() {
 
   useEffect(() => {
     const ele = document.getElementById('sessao-destaque')
-    let removeListener = (_: any) => {return}
-    
+    let removeListener = (_: any) => { return }
+
     if (ele) {
       ele.style.cursor = 'grab'
 
@@ -182,10 +183,12 @@ export default function Home() {
           </SearchSuggestionWrapper>
           <MenuCategoriesWrapper className="mt-4 mt-lg-5">
             {MENU_CATEGORIES_MOCK.map(category =>
-              <MenuCategory key={`menu-category-${category.id}`} className="text-decoration-none" href={`/${category.id}`}>
-                <img src={category.imageUrl} />
-                <p>{category.label}</p>
-              </MenuCategory>
+              <Link key={`menu-category-${category.id}`} href={`/categoria/${category.id}`} as={`/categoria/${category.id}`}>
+                <MenuCategory className="text-decoration-none" href={`/${category.id}`}>
+                  <img src={category.imageUrl} />
+                  <p>{category.label}</p>
+                </MenuCategory>
+              </Link>
             )}
           </MenuCategoriesWrapper>
         </Container>
