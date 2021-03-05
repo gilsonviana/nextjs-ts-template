@@ -1,8 +1,9 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect, ReactNode } from 'react'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { Container, Row, Col, Card, Button } from 'react-bootstrap'
 import axios from 'axios'
 
+import Aside from '@modules/Category/Aside'
 import { ProductCard } from '@modules/Category/styled'
 import CategoryOrderBy from '@modules/Category/OrderBy'
 import { CategoryContext } from '@modules/Category/context'
@@ -10,7 +11,7 @@ import { ICategoryPageProps, ICategoryContext } from '@modules/Category/interfac
 import { MENU_CATEGORIES_MOCK } from '@modules/Home/mock'
 
 export default function CategoryPage(props: ICategoryPageProps) {
-  const { pagination, updatePagination, products, updateProducts, resetProducts } = useContext(CategoryContext) as ICategoryContext
+  const { pagination, updatePagination, products, updateProducts, resetProducts, updateCurrentCategory, filteredProductList } = useContext(CategoryContext) as ICategoryContext
   const [isLoadingProducts, setIsLoadingProducts] = useState<boolean>(false)
 
   const getProductName = (name: string): string => {
@@ -24,7 +25,7 @@ export default function CategoryPage(props: ICategoryPageProps) {
       setIsLoadingProducts(true)
       const { data } = await axios({
         baseURL: process.env.NEXT_PUBLIC_LOMADEE_API_URL + '/' + process.env.NEXT_PUBLIC_LOMADEE_APP_TOKEN,
-        url: `/offer/_category/${props.categoryId}/`,
+        url: `/offer/_category/${props.category.id}/`,
         method: 'GET',
         params: {
           sourceId: process.env.NEXT_PUBLIC_LOMADEE_SOURCE_ID,
@@ -36,11 +37,38 @@ export default function CategoryPage(props: ICategoryPageProps) {
       setIsLoadingProducts(false)
     } catch (err) {
       setIsLoadingProducts(false)
-      console.log(err.response)
+    }
+  }
+
+  const renderProductList = (): ReactNode | void => {
+    if (filteredProductList.length) {
+      return filteredProductList.map(product =>
+        <ProductCard key={`product-${product.id}`} className="bg-transparent mx-0">
+          <Card.Img variant="top" src={product.thumbnail} />
+          <Card.Body>
+            <Card.Subtitle className="mb-2">{getProductName(product.name)}</Card.Subtitle>
+            <Card.Title>R${getProductPrice(product.price)}</Card.Title>
+            <Button block>Comprar</Button>
+          </Card.Body>
+        </ProductCard>
+      )
+    }
+    if (products.length) {
+      return products.map(product =>
+        <ProductCard key={`product-${product.id}`} className="bg-transparent mx-0">
+          <Card.Img variant="top" src={product.thumbnail} />
+          <Card.Body>
+            <Card.Subtitle className="mb-2">{getProductName(product.name)}</Card.Subtitle>
+            <Card.Title>R${getProductPrice(product.price)}</Card.Title>
+            <Button block>Comprar</Button>
+          </Card.Body>
+        </ProductCard>
+      )
     }
   }
 
   useEffect(() => {
+    updateCurrentCategory(props.category)
     updateProducts(props.products)
     return () => resetProducts()
   }, [])
@@ -50,20 +78,7 @@ export default function CategoryPage(props: ICategoryPageProps) {
       <Container fluid>
         <Row>
           <Col className="bg-light d-none d-lg-block" lg={{ span: 3 }} xl={{ span: 2 }}>
-            <aside className="sticky-top pt-3">
-              <section className="mb-5">
-                <h5>Categoria</h5>
-                <p>Nome da categoria</p>
-              </section>
-              <section className="mb-5">
-                <h5>Preço</h5>
-                <p>Filtra por preço</p>
-              </section>
-              <section className="mb-5">
-                <h5>Lojas</h5>
-                <p>Lista lojas</p>
-              </section>
-            </aside>
+            <Aside />
           </Col>
           <Col lg={{ offset: 1, span: 8 }}>
             <div className="pt-4 pb-5">
@@ -76,23 +91,10 @@ export default function CategoryPage(props: ICategoryPageProps) {
                 </Col>
               </Row>
             </div>
-            {/* <Row> */}
-              {products && products.map(product =>
-                // <Col key={`product-${product.id}`}>
-                  <ProductCard key={`product-${product.id}`} className="bg-transparent mx-0">
-                    <Card.Img variant="top" src={product.thumbnail} />
-                    <Card.Body>
-                      <Card.Subtitle className="mb-2">{getProductName(product.name)}</Card.Subtitle>
-                      <Card.Title>R${getProductPrice(product.price)}</Card.Title>
-                      <Button block>Comprar</Button>
-                    </Card.Body>
-                  </ProductCard>
-                // </Col>
-              )}
-              <Col xs={{ span: 12 }} className="text-center">
-                <Button size="lg" disabled={isLoadingProducts} onClick={handleLoadMoreProducts}>Mais Ofertas</Button>
-              </Col>
-            {/* </Row> */}
+            {renderProductList()}
+            <Col xs={{ span: 12 }} className="text-center">
+              <Button size="lg" disabled={isLoadingProducts} onClick={handleLoadMoreProducts}>Mais Ofertas</Button>
+            </Col>
           </Col>
         </Row>
       </Container>
@@ -125,7 +127,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     return {
       props: {
         products: data.offers,
-        categoryId: filteredCategory?.id
+        category: filteredCategory
       }
     }
   }

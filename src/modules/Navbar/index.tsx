@@ -4,9 +4,6 @@ import { useRouter } from 'next/router'
 
 const NavbarComponent: React.FC = () => {
   const router = useRouter()
-
-  console.log("NavbarComponent", router.pathname);
-  
   const isHome = router.pathname == '/'
 
   return (
