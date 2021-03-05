@@ -44,7 +44,15 @@ const CategoryProvider: React.FC<ReactNode> = ({ children }) => {
    */
   const [products, setProducts] = useState<IProduct[]>([])
 
+  /**
+   * Add dinamically fetched products to produts
+   */
   const updateProducts = (newProducts: IProduct[]) => setProducts([...products,  ...newProducts])
+
+  /**
+   * Reset product to initial state
+   */
+  const resetProducts = () => setProducts([])
 
   return (
     <CategoryContext.Provider value={{
@@ -53,7 +61,8 @@ const CategoryProvider: React.FC<ReactNode> = ({ children }) => {
       pagination,
       updatePagination,
       products,
-      updateProducts
+      updateProducts,
+      resetProducts
     }}>
       {children}
     </CategoryContext.Provider>

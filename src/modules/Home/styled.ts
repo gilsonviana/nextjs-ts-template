@@ -68,7 +68,7 @@ export const ProductCard = styled(Card)`
   margin-left: auto;
   margin-right: auto;
   width: 200px;
-  height: 430px;
+  /*height: 445px;*/
 
   svg {
     position: absolute;
@@ -76,9 +76,13 @@ export const ProductCard = styled(Card)`
     top: .5rem;
   }
 
+  .card-body {
+    padding: 1rem;
+  }
+
   .card-title {
     font-weight: bold;
-    margin-bottom: 2.5rem;
+    margin-bottom: 1rem;
   }
 
   .btn {

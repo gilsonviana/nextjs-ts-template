@@ -2,43 +2,53 @@ import { IMenuCategory, IProduct } from "./interface";
 
 export const MENU_CATEGORIES_MOCK: IMenuCategory[] = [{
   imageUrl: '/assets/icons/png/smartphone-call-1.png',
-  label: 'Smartphones',
+  name: 'Smartphones',
+  slug: 'smartphones',
   id: 77
 }, {
   imageUrl: '/assets/icons/png/computer-1.png',
-  label: 'Informática',
+  name: 'Informática',
+  slug: 'informatica',
   id: 2
 }, {
   imageUrl: '/assets/icons/png/television-1.png',
-  label: 'TV',
+  name: 'TV',
+  slug: 'tv',
   id: 2852
 }, {
   imageUrl: '/assets/icons/png/headphone-1.png',
-  label: 'Eletrônicos',
+  name: 'Eletrônicos',
+  slug: 'eletronicos',
   id: 1
 }, {
   imageUrl: '/assets/icons/png/blender-1.png',
-  label: 'Eletrodomésticos',
+  name: 'Eletrodomésticos',
+  slug: 'eletrodomesticos',
   id: 116
 }, {
   imageUrl: '/assets/icons/png/shirt-1.png',
-  label: 'Moda',
+  name: 'Moda',
+  slug: 'moda',
   id: 2468
 }, {
   imageUrl: '/assets/icons/png/couch-1.png',
-  label: 'Móveis',
+  name: 'Móveis',
+  slug: 'moveis',
   id: 2708
 }, {
   imageUrl: '/assets/icons/png/table-lamp-1.png',
-  label: 'Decoração',
+  name: 'Decoração',
+  slug: 'decoracao',
   id: 2701
 }, {
   imageUrl: '/assets/icons/png/soccer-1.png',
-  label: 'Esporte',
+  name: 'Esporte',
+  slug: 'esporte',
   id: 1328
 }, {
   imageUrl: '/assets/icons/png/console-1.png',
-  label: 'Games',
+  name: 'Games',
+  slug: 'games',
   id: 2376
 }]
 

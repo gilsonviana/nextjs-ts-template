@@ -1,7 +1,8 @@
 export interface IMenuCategory {
   imageUrl: string
-  label: string
+  name: string
   id: string | number
+  slug: string
 }
 
 export interface IProduct {

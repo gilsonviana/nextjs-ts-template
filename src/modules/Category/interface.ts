@@ -14,6 +14,7 @@ export interface ICategoryContext {
 
   products: IProduct[]
   updateProducts: (newProducts: IProduct[]) => void
+  resetProducts: () => void
 }
 
 export type OrderByTypes = 'menor' | 'maior' | string
