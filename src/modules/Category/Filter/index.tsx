@@ -15,8 +15,8 @@ const CategoryFilter: React.FC = () => {
     <React.Fragment>
       <Keyword />
       <Price />
-      <Button onClick={clearFilters} size="sm" variant="outline">Limpar Filtros</Button>
-      <Button className="px-4" onClick={handleOnFilter} size="sm" variant="outline-secondary">Filtrar</Button>
+      <Button block className="px-4" onClick={handleOnFilter} size="sm" variant="outline-secondary">Filtrar</Button>
+      <Button block onClick={clearFilters} size="sm" variant="outline">Limpar Filtros</Button>
     </React.Fragment>
   )
 }

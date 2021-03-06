@@ -10,6 +10,9 @@ const CategoryProvider: React.FC<ReactNode> = ({ children }) => {
    * Current Category
    */
   const [currentCategory, setCurrentCategory] = useState<ICategoryContextCurrent>(null)
+  const [isCategorySectionVisible, setIsCategorySectionVisible] = useState<boolean>(false)
+
+  const toggleCategorySection = () => setIsCategorySectionVisible(!isCategorySectionVisible)
 
   const updateCurrentCategory = (params: ICategoryContextCurrent): void => setCurrentCategory(params)
 
@@ -50,9 +53,9 @@ const CategoryProvider: React.FC<ReactNode> = ({ children }) => {
       result = productList.filter(product => product.name.toLowerCase().includes(keyword))
     }
 
-    // if (hasPriceLimit) {
-    //   result = result.filter(product => product.price >= price.min && product.price <= price.max)
-    // }
+    if (hasPriceLimit) {
+      result = result.filter(product => product.price >= price.min && product.price <= price.max)
+    }
     
     setFilteredProductList([...result])
   }
@@ -121,7 +124,9 @@ const CategoryProvider: React.FC<ReactNode> = ({ children }) => {
   return (
     <CategoryContext.Provider value={{
       currentCategory,
+      isCategorySectionVisible,
       updateCurrentCategory,
+      toggleCategorySection,
       filter,
       setFilterKeyword,
       setFilterPrice,

@@ -1,7 +1,8 @@
-import React, { useContext, useState, useEffect, ReactNode } from 'react'
+import React, { useContext, useState, useEffect, ReactNode, useCallback } from 'react'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { Container, Row, Col, Card, Button } from 'react-bootstrap'
 import axios from 'axios'
+import { FiFilter } from 'react-icons/fi'
 
 import Aside from '@modules/Category/Aside'
 import { ProductCard } from '@modules/Category/styled'
@@ -11,7 +12,17 @@ import { ICategoryPageProps, ICategoryContext } from '@modules/Category/interfac
 import { MENU_CATEGORIES_MOCK } from '@modules/Home/mock'
 
 export default function CategoryPage(props: ICategoryPageProps) {
-  const { pagination, updatePagination, products, updateProducts, resetProducts, updateCurrentCategory, filteredProductList } = useContext(CategoryContext) as ICategoryContext
+  const {
+    pagination,
+    updatePagination,
+    products,
+    updateProducts,
+    resetProducts,
+    updateCurrentCategory,
+    filteredProductList,
+    isCategorySectionVisible,
+    toggleCategorySection
+  } = useContext(CategoryContext) as ICategoryContext
   const [isLoadingProducts, setIsLoadingProducts] = useState<boolean>(false)
 
   const getProductName = (name: string): string => {
@@ -39,6 +50,16 @@ export default function CategoryPage(props: ICategoryPageProps) {
       setIsLoadingProducts(false)
     }
   }
+
+  const renderCategorySectionOnMobile = useCallback((): ReactNode | void => {
+    if (isCategorySectionVisible) {
+      return (
+        <Col className="bg-light" lg={{ span: 3 }} xl={{ span: 2 }}>
+          <Aside />
+        </Col>
+      )
+    }
+  }, [isCategorySectionVisible])
 
   const renderProductList = (): ReactNode | void => {
     if (filteredProductList.length) {
@@ -80,11 +101,18 @@ export default function CategoryPage(props: ICategoryPageProps) {
           <Col className="bg-light d-none d-lg-block" lg={{ span: 3 }} xl={{ span: 2 }}>
             <Aside />
           </Col>
+          {renderCategorySectionOnMobile()}
           <Col lg={{ offset: 1, span: 8 }}>
             <div className="pt-4 pb-5">
               <Row>
                 <Col>
-                  <h3>Produtos</h3>
+                  <div className="d-flex justify-content-between">
+                    <h3>Produtos</h3>
+                    <Button variant="light" onClick={toggleCategorySection}>
+                      <FiFilter />
+                      <small className="ml-2">Filtros</small>
+                    </Button>
+                  </div>
                 </Col>
                 <Col lg={{ span: 3 }}>
                   <CategoryOrderBy />

@@ -7,7 +7,9 @@ export interface ICategoryPageProps {
 
 export interface ICategoryContext {
   currentCategory: ICategoryContextCurrent | null
+  isCategorySectionVisible: boolean
   updateCurrentCategory: (params: ICategoryContextCurrent) => void
+  toggleCategorySection: () => void
 
   filter: ICategoryContextFilter
   setFilterKeyword: (search: string) => void
