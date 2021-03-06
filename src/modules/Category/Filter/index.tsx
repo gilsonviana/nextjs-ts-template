@@ -5,6 +5,7 @@ import { CategoryContext } from '@modules/Category/context'
 
 import Keyword from './Keyword'
 import Price from './Price'
+import RetailStores from './RetailStores'
 
 const CategoryFilter: React.FC = () => {
   const { applyFilters, clearFilters } = useContext(CategoryContext)
@@ -17,6 +18,7 @@ const CategoryFilter: React.FC = () => {
       <Price />
       <Button block className="px-4" onClick={handleOnFilter} size="sm" variant="outline-secondary">Filtrar</Button>
       <Button block onClick={clearFilters} size="sm" variant="outline">Limpar Filtros</Button>
+      <RetailStores />
     </React.Fragment>
   )
 }

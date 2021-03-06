@@ -12,6 +12,8 @@ export interface ICategoryContext {
   toggleCategorySection: () => void
 
   filter: ICategoryContextFilter
+  updateRetailsStores: (stores: ICategoryContextRetailStore[]) => void
+  selectRetailStore: (selectedStore: ICategoryContextRetailStore) => void
   setFilterKeyword: (search: string) => void
   setFilterPrice: (key: string, value: number) => void
   applyFilters: () => void
@@ -45,10 +47,15 @@ export interface ICategoryContextFilter {
     max: number
     [key: string]: number
   }
-  retailStore: Array<{
-    id: number | string | null
-    name: string
-  }>
+  retailStores: ICategoryContextRetailStore[]
+  selectedRetailsStores: ICategoryContextRetailStore[]
+}
+
+export interface ICategoryContextRetailStore {
+  id: number | string
+  name: string
+  thumbnail?: string
+  link?: string
 }
 
 export interface ICategoryContextCurrent {

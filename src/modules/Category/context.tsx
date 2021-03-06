@@ -1,7 +1,7 @@
 import { IProduct } from '@modules/Home/interface'
 import React, { createContext, ReactNode, useState } from 'react'
 
-import { ICategoryContext, ICategoryContextCurrent, ICategoryContextFilter, ICategoryContextPagination, OrderByTypes } from './interface'
+import { ICategoryContext, ICategoryContextCurrent, ICategoryContextFilter, ICategoryContextPagination, ICategoryContextRetailStore, OrderByTypes } from './interface'
 
 export const CategoryContext = createContext<ICategoryContext | null>(null)
 
@@ -25,7 +25,21 @@ const CategoryProvider: React.FC<ReactNode> = ({ children }) => {
       min: 0,
       max: 0
     },
-    retailStore: []
+    retailStores: [],
+    selectedRetailsStores: []
+  })
+
+  const updateRetailsStores = (stores: ICategoryContextRetailStore[]) => setFilter({
+    ...filter,
+    retailStores: stores
+  })
+
+  const selectRetailStore = (selectedStore: ICategoryContextRetailStore) => setFilter({
+    ...filter,
+    selectedRetailsStores: [
+      ...filter.selectedRetailsStores,
+      selectedStore
+    ]
   })
 
   const setFilterKeyword = (search: string): void => setFilter({
@@ -128,6 +142,8 @@ const CategoryProvider: React.FC<ReactNode> = ({ children }) => {
       updateCurrentCategory,
       toggleCategorySection,
       filter,
+      updateRetailsStores,
+      selectRetailStore,
       setFilterKeyword,
       setFilterPrice,
       applyFilters,
