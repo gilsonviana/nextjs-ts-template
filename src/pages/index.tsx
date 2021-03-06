@@ -76,7 +76,7 @@ export default function Home() {
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <section className="bg-primary pt-3 p-lg-5 mb-5">
+      <section className="bg-primary pt-3 p-lg-5">
         <Container>
           <Form inline>
             <FormControl type="text" placeholder="Estou procurando por..." className="mr-sm-2 w-100 p-4" />
@@ -89,17 +89,17 @@ export default function Home() {
           </SearchSuggestionWrapper>
           <MenuCategoriesWrapper className="mt-4 mt-lg-5">
             {MENU_CATEGORIES_MOCK.map(category =>
-              <Link key={`menu-category-${category.id}`} href={`/categoria/${category.id}`} as={`/categoria/${category.id}`}>
+              <Link key={`menu-category-${category.id}`} href={`/categoria/${category.slug}`} as={`/categoria/${category.slug}`}>
                 <MenuCategory className="text-decoration-none" href={`/${category.id}`}>
                   <img src={category.imageUrl} />
-                  <p>{category.label}</p>
+                  <p>{category.name}</p>
                 </MenuCategory>
               </Link>
             )}
           </MenuCategoriesWrapper>
         </Container>
       </section>
-      <section className="mb-5">
+      <section className="py-5">
         <Container>
           <h3 className="mb-4">Descontos incríveis</h3>
           <Container fluid>
