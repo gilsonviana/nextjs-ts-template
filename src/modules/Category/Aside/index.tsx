@@ -16,7 +16,7 @@ const CategoryAside: React.FC = () => {
       <section className="mb-4">
         <div className="d-flex justify-content-between">
           <h5>Categoria</h5>
-          <Button onClick={toggleCategorySection} type="button" variant="light" aria-label="Close"><IoCloseSharp size="1.5rem" /></Button>
+          <Button className="d-lg-none" onClick={toggleCategorySection} type="button" variant="light" aria-label="Close"><IoCloseSharp size="1.5rem" /></Button>
         </div>
         <h4 className="text-black-50">{currentCategory?.name}</h4>
       </section>

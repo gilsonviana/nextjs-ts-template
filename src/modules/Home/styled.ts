@@ -31,21 +31,32 @@ export const MenuCategoriesWrapper = styled.div`
 
 export const MenuCategory = styled.a`
   display: block;
-  overflow: hidden;
+  // overflow: hidden;
   color: #f8f9fa;
-  min-width: 110px;
+  // min-width: 90px;
+  padding: 0 .8rem;
+
   
   &:hover {
     color: #f8f9fa;
   }
 
   img {
-    width: 40px;
-    max-height: 40px;
+    width: 30px;
+    max-height: 30px;
   }
 
   p {
     font-size: 14px;
+  }
+
+  @media (min-width: 768px) {
+    min-width: 110px;
+
+    img {
+      width: 40px;
+      max-height: 40px;
+    }
   }
 `
 
@@ -68,7 +79,6 @@ export const ProductCard = styled(Card)`
   margin-left: auto;
   margin-right: auto;
   width: 200px;
-  /*height: 445px;*/
 
   svg {
     position: absolute;

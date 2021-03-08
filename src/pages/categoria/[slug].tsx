@@ -90,24 +90,14 @@ export default function CategoryPage(props: ICategoryPageProps) {
   }
 
   useEffect(() => {
-    console.log(props.products.map(product => ({
-      id: product.store.id,
-      name: product.store.name,
-      thumbnail: product.store?.thumbnail,
-      link: product.store?.link
-    })));
-    
     const retailStores = props.products.map(product => ({
       id: product.store.id,
       name: product.store.name,
       thumbnail: product.store?.thumbnail,
       link: product.store?.link
     })).filter((product, i, arr) => {
-      console.log(arr.findIndex(() => product.id), " ---", i)
       return arr.findIndex(inner => inner.id) === i
     })
-
-    console.log("retailStores --->", retailStores);
 
     updateRetailsStores(retailStores)
     updateCurrentCategory(props.category)
