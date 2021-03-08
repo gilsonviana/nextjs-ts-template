@@ -10,7 +10,7 @@ import { ISearchPageProps } from './interface'
 import CategoryOrderBy from './OrderBy'
 import { ProductCard } from './styled'
 
-const CategoryPageView: React.FC<ISearchPageProps> = (props) => {
+const SearchPageView: React.FC<ISearchPageProps> = (props) => {
   const {
     pagination,
     updatePagination,
@@ -35,25 +35,27 @@ const CategoryPageView: React.FC<ISearchPageProps> = (props) => {
 
   const getProductPrice = (price: number): string => price.toFixed(2)
 
-  // const handleLoadMoreProducts = async (): Promise<void> => {
-  //   try {
-  //     setIsLoadingProducts(true)
-  //     const { data } = await axios({
-  //       baseURL: process.env.NEXT_PUBLIC_LOMADEE_API_URL + '/' + process.env.NEXT_PUBLIC_LOMADEE_APP_TOKEN,
-  //       url: `/offer/_category/${props.category.id}/`,
-  //       method: 'GET',
-  //       params: {
-  //         sourceId: process.env.NEXT_PUBLIC_LOMADEE_SOURCE_ID,
-  //         page: pagination.page + 1
-  //       }
-  //     })
-  //     updatePagination({ page: pagination.page + 1 })
-  //     updateProducts(data.offers)
-  //     setIsLoadingProducts(false)
-  //   } catch (err) {
-  //     setIsLoadingProducts(false)
-  //   }
-  // }
+  const handleLoadMoreProducts = async (): Promise<void> => {
+    try {
+      setIsLoadingProducts(true)
+      const { data } = await axios({
+        baseURL: process.env.NEXT_PUBLIC_LOMADEE_API_URL + '/' + process.env.NEXT_PUBLIC_LOMADEE_APP_TOKEN,
+        url: `/offer/_search/`,
+        method: 'GET',
+        params: {
+          sourceId: process.env.NEXT_PUBLIC_LOMADEE_SOURCE_ID,
+          keyword: searchQuery,
+          size: 24,
+          page: pagination.page
+        }
+      })
+      updatePagination({ page: pagination.page + 1 })
+      updateProducts(data.offers)
+      setIsLoadingProducts(false)
+    } catch (err) {
+      setIsLoadingProducts(false)
+    }
+  }
 
   const renderCategorySectionOnMobile = useCallback((): ReactNode | void => {
     if (isCategorySectionVisible) {
@@ -79,8 +81,8 @@ const CategoryPageView: React.FC<ISearchPageProps> = (props) => {
       )
     }
     if (products.length) {
-      return products.map(product =>
-        <ProductCard key={`product-${product.id}`} className="bg-transparent mx-0">
+      return products.map((product, i) =>
+        <ProductCard key={`product-${product.id}-${i}`} className="bg-transparent mx-0">
           <Card.Img variant="top" src={product.thumbnail} />
           <Card.Body>
             <Card.Subtitle className="mb-2">{getProductName(product.name)}</Card.Subtitle>
@@ -92,28 +94,30 @@ const CategoryPageView: React.FC<ISearchPageProps> = (props) => {
     }
   }
 
-  // useEffect(() => {
-  //   const searchByKeyword = async () => {
-  //     try {
-  //       const { data } = await axios({
-  //         baseURL: process.env.NEXT_PUBLIC_LOMADEE_API_URL + '/' + process.env.NEXT_PUBLIC_LOMADEE_APP_TOKEN,
-  //         url: `/offer/_search/`,
-  //         method: 'GET',
-  //         params: {
-  //           sourceId: process.env.NEXT_PUBLIC_LOMADEE_SOURCE_ID,
-  //           keyword: searchQuery,
-  //           size: 24,
-  //           // page: pagination.page + 1
-  //         }
-  //       })
-  //       console.log("searchByKeyword", data);
-  //     } catch (error) {
-  //       console.log("searchByKeyword => ERROR =>", error.response.data)
-  //     }
+  useEffect(() => {
+    const searchByKeyword = async () => {
+      try {
+        const { data } = await axios({
+          baseURL: process.env.NEXT_PUBLIC_LOMADEE_API_URL + '/' + process.env.NEXT_PUBLIC_LOMADEE_APP_TOKEN,
+          url: `/offer/_search/`,
+          method: 'GET',
+          params: {
+            sourceId: process.env.NEXT_PUBLIC_LOMADEE_SOURCE_ID,
+            keyword: searchQuery,
+            size: 24,
+            page: pagination.page
+          }
+        })
+        updateProducts(data.offers)
+        updatePagination({ page: pagination.page + 1 })
+      } catch (error) {
+        // TODO: handle error
+      }
 
-  //   }
-  //   searchByKeyword()
-  // }, [])
+    }
+    searchByKeyword()
+    return () => resetProducts()
+  }, [])
 
   return (
     <main className="bg-white pb-5">
@@ -146,8 +150,7 @@ const CategoryPageView: React.FC<ISearchPageProps> = (props) => {
             </div>
             {renderProductList()}
             <Col xs={{ span: 12 }} className="text-center">
-              {/* <Button size="lg" disabled={isLoadingProducts} onClick={handleLoadMoreProducts}>Mais Ofertas</Button> */}
-              <Button size="lg" disabled={isLoadingProducts}>Mais Ofertas</Button>
+              <Button size="lg" disabled={isLoadingProducts} onClick={handleLoadMoreProducts}>Mais Ofertas</Button>
             </Col>
           </Col>
         </Row>
@@ -156,4 +159,4 @@ const CategoryPageView: React.FC<ISearchPageProps> = (props) => {
   )
 }
 
-export default CategoryPageView
+export default SearchPageView
